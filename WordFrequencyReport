@@ -1,0 +1,67 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class WordFrequencyReport {
+
+    static void printFilteredWordFrequency(String feedback) {
+
+        // Convert to lowercase
+        feedback = feedback.toLowerCase();
+
+        // Remove punctuation
+        feedback = feedback.replace(".", "");
+        feedback = feedback.replace(",", "");
+
+        // Split using whitespace
+        String[] words = feedback.split("\\s+");
+
+        // Stop words
+        String[] stopWords = {
+            "the", "was", "and", "a", "is", "of", "in"
+        };
+
+        HashMap<String, Integer> frequency =
+                new HashMap<>();
+
+        for (String word : words) {
+
+            boolean isStopWord = false;
+
+            // Check whether word is a stop word
+            for (String stop : stopWords) {
+
+                if (word.equals(stop)) {
+                    isStopWord = true;
+                    break;
+                }
+            }
+
+            if (isStopWord) {
+                continue;
+            }
+
+            // Count frequency
+            frequency.put(
+                word,
+                frequency.getOrDefault(word, 0) + 1
+            );
+        }
+
+        // Print frequency
+        for (Map.Entry<String, Integer> entry :
+                frequency.entrySet()) {
+
+            System.out.println(
+                entry.getKey() + ": " + entry.getValue()
+            );
+        }
+    }
+
+    public static void main(String[] args) {
+
+        String feedback =
+                "The mentor was great, the session was great and clear.";
+
+        printFilteredWordFrequency(feedback);
+    }
+}
